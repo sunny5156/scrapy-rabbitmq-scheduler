@@ -3,6 +3,7 @@ import time
 import signal
 import logging
 import pickle
+import json
 
 from scrapy.http import Request
 from . import connection

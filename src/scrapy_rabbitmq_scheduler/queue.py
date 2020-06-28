@@ -7,6 +7,7 @@ from scrapy.utils.reqser import request_to_dict
 # module packages
 from . import connection
 from . import picklecompat
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -73,7 +74,8 @@ class RabbitMQQueue(IQueue):
     def _encode_request(self, request):
         """Encode a request object"""
         obj = request_to_dict(request, self.spider)
-        return self.serializer.dumps(obj)
+        # return self.serializer.dumps(obj) #指定格式 使用 json @sunny5156
+        return json.dumps(obj)
 
     @_try_operation
     def pop(self, no_ack=False):
@@ -101,9 +103,12 @@ class RabbitMQQueue(IQueue):
             exchange = ''
         properties.headers = headers
 
+        rabbitmq_data = json.dumps({'url':body.url,'params':body.meta}) # 指定格式 使用 json @sunny5156 
+
         self.channel.basic_publish(exchange=exchange,
                                    routing_key=self.key,
-                                   body=self._encode_request(body),
+                                   #body=self._encode_request(json_data),
+                                   body=rabbitmq_data,
                                    properties=properties)
 
     def connect(self):
