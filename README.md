@@ -11,6 +11,13 @@ pip install scrapy-rabbitmq-scheduler
 python setup.py install
 ```
 
+## 数据格式 
+### rabbitmq 数据格式 
+
+```
+{"url":"http://blog.sunqiang.me","params":{"id":23,"自定义参数key":"自定义参数value"}}
+```
+
 ## 使用
 ### 第一步: 在你的项目中的settings.py中添加配置项
 ```
