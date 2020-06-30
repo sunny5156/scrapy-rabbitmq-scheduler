@@ -70,6 +70,7 @@ queue_key = 'test_urls'
 with open('urls.txt') as f:
     for url in f:
         url = url.strip(' \n\r')
+        data = {"url":url,"params":{"key":"value"}} # key value 根据业务自定义
         channel.basic_publish(exchange='',
                         routing_key=queue_key,
                         body=url,
